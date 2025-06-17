@@ -63,13 +63,6 @@ namespace CakeApp.Controllers
             else { return View("Edit", cake); }
         }
 
-        [HttpGet]
-        public IActionResult ConfirmDelete(string id)
-
-        {
-            TempData["id"] = id;
-            return View();
-        }
 
         [HttpPost("{id:length(24)}")]
         public async Task<IActionResult> Delete(string id)
