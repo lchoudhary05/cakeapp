@@ -3,20 +3,24 @@
 @{
     <form asp-action="Update" asp-controller="Cakes" class="form-group" asp-route-id="@Model.Id" method="post">
         <label asp-for="UserName">Your Name</label>
-        <input class="row" asp-for="UserName">
+        <input class="row" asp-for="UserName" placeholder="Enter your Name">
+        <span asp-validation-for="UserName" class="text-danger"></span>
         <br />
         <label asp-for="CakeFlavour">Choose flavour</label>
-        <select asp-for="CakeSize" asp-items="Html.GetEnumSelectList<Flavour>()">
-            <option>Change your cake Flavour</option>
+        <select asp-for="CakeFlavour" asp-items="Html.GetEnumSelectList<Flavour>()">
+            <option value=""> Select flavour of your choice</option>
         </select>
+        <span asp-validation-for="CakeFlavour" class="text-danger"></span>
         <br />
         <label asp-for="CakeSize">Choose Size</label>
-        <select asp-for="CakeSize" asp-items="Html.GetEnumSelectList<Sizes>()">
-            <option>Change your cake size</option>
+        <select class="row" asp-for="CakeSize" asp-items="Html.GetEnumSelectList<Sizes>()">
+            <option value=""> select options</option>
         </select>
+        <span asp-validation-for="CakeSize" class="text-danger"></span>
         <br />
         <label asp-for="OrderDue">when do your want it</label>
-        <input class="row" asp-for="OrderDue">
+        <input class="row" asp-for="OrderDue" placeholder="Enter your choice">
+        <span asp-validation-for="OrderDue" class="text-danger"></span>
         <br />
         <button type="Submit">Submit</button>
     </form>

@@ -55,8 +55,12 @@ namespace CakeApp.Controllers
         [HttpPost("Update/id")]
         public async Task<IActionResult> Update(string id, Cakes cake)
         {
-            await _cakeService.Updateasync(id, cake);
-            return RedirectToAction("Get", "Cakes");
+            if (ModelState.IsValid)
+            {
+                await _cakeService.Updateasync(id, cake);
+                return RedirectToAction("Get", "Cakes");
+            }
+            else { return View("Edit", cake); }
         }
 
         [HttpGet]
