@@ -1,0 +1,8 @@
+@{
+    string? id = @TempData["id"] as string;
+}
+<h1> Are you sure you want to delete?</h1>
+<form asp-action="Delete" asp-controller="Cakes" asp-route-id="@id" method="post">
+    <button type="submit" class="btn btn-outline-danger">Confirm Delete</button>
+</form>
+<a asp-action="Get" asp-controller="Cakes" class="btn btn-outline-success">Cancel</a>

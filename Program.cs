@@ -1,8 +1,16 @@
+using Services;
+using Settings;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.Configure<CakeDatabaseSetting>(
+    builder.Configuration.GetSection("CakesDatbaseSettings")
+);
+
+builder.Services.AddSingleton<CakesService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,7 +30,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Cakes}/{action=Get}/{id?}")
     .WithStaticAssets();
 
 

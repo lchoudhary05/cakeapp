@@ -1,0 +1,22 @@
+@model List<Cakes>
+
+@{
+    <h1>All orders</h1>
+    <a asp-action="Create" asp-controller="Cakes" class="btn btn-outline-primary">Place Order</a>
+    foreach (var cake in Model)
+    {
+        <ul>
+            <li>Name: @cake.UserName</li>
+            <li>Flavour: @cake.CakeFlavour</li>
+            <li>Size: @cake.CakeSize</li>
+            <li>Ordered on: @cake.OrderDate</li>
+            <li>Due: @cake.OrderDue</li>
+            <li>Status: @cake.OrderStatus</li>
+            <li>Price: @cake.Price</li>
+            <a asp-action="Edit" asp-controller="Cakes" asp-route-id=@cake.Id class="btn btn-outline-secondary">Edit</a>
+            <a asp-action="ConfirmDelete" asp-controller="Cakes" class="btn btn-outline-danger"
+                asp-route-id=@cake.Id">Delete</a>
+        </ul>
+    }
+
+}

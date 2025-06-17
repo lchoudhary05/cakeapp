@@ -1,0 +1,23 @@
+@model Cakes
+<h1>Choose your cake here</h1>
+@{
+    <form asp-action="Update" asp-controller="Cakes" class="form-group" asp-route-id="@Model.Id" method="post">
+        <label asp-for="UserName">Your Name</label>
+        <input class="row" asp-for="UserName">
+        <br />
+        <label asp-for="CakeFlavour">Choose flavour</label>
+        <select asp-for="CakeSize" asp-items="Html.GetEnumSelectList<Flavour>()">
+            <option>Change your cake Flavour</option>
+        </select>
+        <br />
+        <label asp-for="CakeSize">Choose Size</label>
+        <select asp-for="CakeSize" asp-items="Html.GetEnumSelectList<Sizes>()">
+            <option>Change your cake size</option>
+        </select>
+        <br />
+        <label asp-for="OrderDue">when do your want it</label>
+        <input class="row" asp-for="OrderDue">
+        <br />
+        <button type="Submit">Submit</button>
+    </form>
+}

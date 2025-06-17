@@ -1,0 +1,30 @@
+@model Cakes
+<h1>Choose your cake here</h1>
+@{
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <form asp-action="Post" asp-controller="Cakes" class="form-control" method="post">
+                    <label asp-for="UserName">Your Name</label>
+                    <input class="row" asp-for="UserName" placeholder="Enter your Name">
+                    <br />
+                    <label asp-for="CakeFlavour">Choose flavour</label>
+                    <select asp-for="CakeFlavour" asp-items="Html.GetEnumSelectList<Flavour>()">
+                        <option> Select flavour of your choice</option>
+                    </select>
+                    <br />
+                    <label asp-for="CakeSize">Choose Size</label>
+                    <select class="row" asp-for="CakeSize" asp-items="Html.GetEnumSelectList<Sizes>()">
+                        <option> select options</option>
+                    </select>
+                    <br />
+                    <label asp-for="OrderDue">when do your want it</label>
+                    <input class="row" asp-for="OrderDue" placeholder="Enter your choice">
+                    <br />
+                    <button type="Submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+}
