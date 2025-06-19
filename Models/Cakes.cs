@@ -17,7 +17,7 @@ namespace CakeApp.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
-        [Required(ErrorMessage = "cake size is required")]
+        [Required(ErrorMessage = "Name is required")]
         public string? UserName { get; set; }
         public int? Userid { get; set; }
         public int Orderid { get; set; }
@@ -25,7 +25,7 @@ namespace CakeApp.Models
         [BsonRepresentation(BsonType.String)]
         public Flavour? CakeFlavour { get; set; }
         [BsonRepresentation(BsonType.String)]
-        [Required(ErrorMessage = "cake Flavour is required")]
+        [Required(ErrorMessage = "cake Size is required")]
         public Sizes? CakeSize { get; set; }
         public string? OrderStatus { get; set; }
 

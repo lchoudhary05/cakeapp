@@ -41,6 +41,7 @@ namespace CakeApp.Controllers
             {
                 newCake.OrderDate = DateTime.Now;
                 await _cakeService.PostAsync(newCake);
+                TempData["insert"] = "inserted..";
                 return RedirectToAction("Get", "Cakes");
             }
             else { return View("Create", newCake); }
@@ -58,6 +59,7 @@ namespace CakeApp.Controllers
             if (ModelState.IsValid)
             {
                 await _cakeService.Updateasync(id, cake);
+                TempData["update"] = "updated..";
                 return RedirectToAction("Get", "Cakes");
             }
             else { return View("Edit", cake); }
@@ -69,6 +71,7 @@ namespace CakeApp.Controllers
 
         {
             await _cakeService.Deleteasync(id);
+            TempData["delete"] = "deleted..";
             return RedirectToAction("Get", "Cakes");
         }
 

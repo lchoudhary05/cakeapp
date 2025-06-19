@@ -2,7 +2,29 @@
 
 @{
     <h1>All orders</h1>
+    <a asp-action="Logout" asp-controller="Home">logout</a>
     <a asp-action="Create" asp-controller="Cakes" class="btn btn-outline-primary">Place Order</a>
+    if (TempData["insert"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Success!</strong>@TempData["insert"]
+            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
+        </div>
+    }
+    if (TempData["delete"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Success!</strong>@TempData["delete"]
+            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
+        </div>
+    }
+    if (TempData["update"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Success!</strong>@TempData["update"]
+            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
+        </div>
+    }
     foreach (var cake in Model)
     {
         <ul>
