@@ -54,6 +54,13 @@
                             @* Changed type to password *@
                             <span asp-validation-for="Password" class="text-danger mt-1 d-block"></span>
                         </div>
+                        <div class="mb-4"> @* Slightly more margin for the last input before the button *@
+                            <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label> @* Added proper label text *@
+                            <input type="password" class="form-control" asp-for="ConfirmPassword"
+                                placeholder="Confirm password">
+                            @* Changed type to password *@
+                            <span asp-validation-for="ConfirmPassword" class="text-danger mt-1 d-block"></span>
+                        </div>
 
                         <div class="d-grid gap-2 mb-3"> @* Full-width button with bottom margin *@
                             <button type="submit" class="btn btn-primary btn-lg">Register</button>
