@@ -1,8 +1,11 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor accessor
+@{
     ViewData["Title"] = "Home Page";
 }
+@* @accessor.HttpContext.Session.GetString("user") *@
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<Hi> Welcome!! @ViewBag.user</Hi>
+<a asp-action="Get" asp-controller="Cakes"> See orders</a>
+<br />
+<a asp-action="Logout" asp-controller="Home">logout</a>

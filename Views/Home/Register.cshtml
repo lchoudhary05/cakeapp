@@ -1,0 +1,38 @@
+@model Users
+
+@{
+    if (TempData["exist"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Alert! </strong>@TempData["exist"]
+            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
+        </div>
+    }
+}
+<h1>Welcome!</h1>
+<div class="container">
+    <div class="row">
+        <div>
+            <form asp-action="Register" asp-controller="Home" method="post">
+                <label asp-for=FirstName></label>
+                <input asp-for="FirstName" placeholder="Enter your first name">
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+                </br>
+                <label asp-for=LastName></label>
+                <input asp-for="LastName" placeholder="Enter your last name">
+                <span asp-validation-for="LastName" class="text-danger"></span>
+                </br>
+                <label asp-for=Email></label>
+                <input asp-for="Email" placeholder="Enter email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+                </br>
+                <label asp-for=Password></label>
+                <input asp-for="Password" placeholder="Enter password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+                </br>
+                <button type="Submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<span>Already Registered?<a asp-action="Login" asp-asp-controller="Home">Login</a></span>

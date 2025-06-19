@@ -1,0 +1,51 @@
+@model Users
+
+<h1>Login to placeholder an order!</h1>
+@{
+    if (TempData["register"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Successfully!</strong>@TempData["register"]
+            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
+        </div>
+    }
+}
+@{
+    if (TempData["notPresent"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error! </strong>@TempData["notPresent"]
+            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
+        </div>
+    }
+}
+@{
+    if (TempData["noMatch"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error! </strong>@TempData["noMatch"]
+            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
+        </div>
+    }
+}
+
+
+<div class="container">
+    <div class="row">
+        <div>
+            <form asp-action="Login" asp-asp-controller="Home" method="post">
+                <label asp-for=Email></label>
+                <input asp-for="Email" placeholder="Enter your first name">
+                <span asp-validation-for="Email" class="text-danger"></span>
+                </br>
+                <label asp-for=Password></label>
+                <input asp-for="Password" placeholder="Enter your last name">
+                <span asp-validation-for="Password" class="text-danger"></span>
+                </br>
+                <button type="Submit">Login</button>
+                <input asp-for="FirstName" type="hidden" value="na">
+            </form>
+        </div>
+    </div>
+</div>
+<span>Not Registered?<a asp-action="Register" asp-asp-controller="Home">Register</a></span>
