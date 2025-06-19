@@ -1,47 +1,113 @@
 @model List<Cakes>
 
 @{
-    <h1>All orders</h1>
-    <a asp-action="Logout" asp-controller="Home">logout</a>
-    <a asp-action="Create" asp-controller="Cakes" class="btn btn-outline-primary">Place Order</a>
-    if (TempData["insert"] != null)
-    {
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Success!</strong>@TempData["insert"]
-            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
+    ViewData["Title"] = "All Cake Orders"; // Set a title for the browser tab
+}
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-4">All Orders</h1> @* Larger, more prominent heading *@
+        <div>
+            <a asp-action="Create" asp-controller="Cakes" class="btn btn-primary me-2">
+                <i class="bi bi-plus-circle-fill"></i> Place New Order @* Added Bootstrap Icon (requires separate CDN/package)*@
+            </a>
+            <a asp-action="Logout" asp-controller="Home" class="btn btn-outline-secondary">Logout</a>
         </div>
-    }
-    if (TempData["delete"] != null)
-    {
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Success!</strong>@TempData["delete"]
-            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
-        </div>
-    }
-    if (TempData["update"] != null)
-    {
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Success!</strong>@TempData["update"]
-            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
-        </div>
-    }
-    foreach (var cake in Model)
-    {
-        <ul>
-            <li>Name: @cake.UserName</li>
-            <li>Flavour: @cake.CakeFlavour</li>
-            <li>Size: @cake.CakeSize</li>
-            <li>Ordered on: @cake.OrderDate</li>
-            <li>Due: @cake.OrderDue</li>
-            <li>Status: @cake.OrderStatus</li>
-            <li>Price: @cake.Price</li>
-            <a asp-action="Edit" asp-controller="Cakes" asp-route-id=@cake.Id class="btn btn-outline-secondary">Edit</a>
-            <form asp-action="Delete" asp-controller="Cakes" asp-route-id="@cake.Id" method="post"
-                onsubmit="return confirm('Are you sure you want to delete cake by @cake.UserName? This action cannot be undone.');"
-                style="display:inline-block; margin-left: 10px;">
-                <button type="submit" class="btn btn-outline-danger">Delete</button>
-            </form>
-        </ul>
+    </div>
+
+    @* Success/Warning Alerts using a loop to avoid repetition and improve readability *@
+    @{
+        var messages = new Dictionary<string, string>
+        {
+            {"insert", "Your order has been placed successfully!"},
+            {"delete", "Order deleted successfully!"},
+            {"update", "Order updated successfully!"}
+        };
+
+        foreach (var entry in messages)
+        {
+            if (TempData[entry.Key] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert"> @* Changed to success for positive actions *@
+                    <strong>Success!</strong> @TempData[entry.Key]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        }
     }
 
+
+    @if (!Model.Any()) // Check if there are no orders
+    {
+        <div class="alert alert-info text-center" role="alert">
+            No cake orders placed yet. <a asp-action="Create" asp-controller="Cakes">Be the first to order!</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive"> @* Makes table scrollable on small screens *@
+            <table class="table table-hover table-striped table-bordered align-middle"> @* Styling for the table *@
+                <thead class="table-dark"> @* Dark header for contrast *@
+                    <tr>
+                        <th>Name</th>
+                        <th>Flavour</th>
+                        <th>Size</th>
+                        <th>Ordered On</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Price</th>
+                        <th class="text-center">Actions</th> @* Center actions column header *@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cake in Model)
+                    {
+                        <tr>
+                            <td>@cake.UserName</td>
+                            <td>@cake.CakeFlavour</td>
+                            <td>@cake.CakeSize</td>
+                            <td>@cake.OrderDate?.ToShortDateString()</td> @* Format date for cleaner display *@
+                            <td>@cake.OrderDue?.ToShortDateString()</td>
+                            <td>
+                                @{
+                                    // Dynamically apply badge color based on status (e.g., assuming OrderStatus is an enum or string)
+                                    string statusBadgeClass = cake.OrderStatus switch
+                                    {
+                                        "Pending" => "bg-warning text-dark",
+                                        "Confirmed" => "bg-info",
+                                        "Baking" => "bg-primary",
+                                        "Ready" => "bg-success",
+                                        "Collected" => "bg-secondary",
+                                        "Cancelled" => "bg-danger",
+                                        _ => "bg-light text-dark" // Default or unknown status
+                                    };
+                                }
+                                <span class="badge @statusBadgeClass rounded-pill">@cake.OrderStatus</span>
+                            </td>
+                            <td>@cake.Price.ToString("C")</td> @* Format price as currency *@
+                            <td class="text-center">
+                                <a asp-action="Edit" asp-controller="Cakes" asp-route-id="@cake.Id" class="btn btn-sm btn-outline-secondary me-2" title="Edit Order">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                                <form asp-action="Delete" asp-controller="Cakes" asp-route-id="@cake.Id" method="post"
+                                    onsubmit="return confirm('Are you sure you want to delete cake by @cake.UserName? This action cannot be undone.');"
+                                    class="d-inline-block"> @* Use d-inline-block for button alignment *@
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete Order">
+                                        <i class="bi bi-trash-fill"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @{
+        // This partial renders the client-side validation scripts (jQuery Validation, etc.)
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

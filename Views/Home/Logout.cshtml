@@ -1,7 +1,27 @@
-<h1> Are you sure you want to logout?</h1>
-<form asp-action="ConfirmLogout" asp-controller="Home">
-    <button type="=Submit">Confirm</button>
-</form>
-<form asp-action="Index" asp-controller="Home">
-    <button type="=Submit">Cancel</button>
-</form>
+@{
+    ViewData["Title"] = "Confirm Logout"; // Sets the browser tab title
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg p-4 text-center"> @* Card with shadow, padding, and centered text *@
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Are you sure you want to log out?</h2> @* Clear heading for the question *@
+                    <p class="card-text text-muted mb-4">
+                        Logging out will end your current session. You'll need to log back in to access your orders.
+                    </p>
+
+                    <div class="d-grid gap-2"> @* For full-width buttons that stack on smaller screens *@
+                        <form asp-action="ConfirmLogout" asp-controller="Home" method="post"> @* Add method="post" for forms *@
+                            <button type="submit" class="btn btn-danger btn-lg w-100">Confirm Logout</button> @* Red button for confirmation *@
+                        </form>
+                        <form asp-action="Index" asp-controller="Home" method="get"> @* Use method="get" for cancel, or just an <a> tag *@
+                            <button type="submit" class="btn btn-outline-secondary btn-lg w-100">Cancel</button> @* Outline button for cancel *@
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

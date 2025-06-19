@@ -1,51 +1,80 @@
-@model Users
+@model CakeApp.Models.LoginViewModel
+@* <-- IMPORTANT: Use your LoginViewModel here *@
 
-<h1>Login to placeholder an order!</h1>
 @{
-    if (TempData["register"] != null)
-    {
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Successfully!</strong>@TempData["register"]
-            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
-        </div>
-    }
-}
-@{
-    if (TempData["notPresent"] != null)
-    {
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Error! </strong>@TempData["notPresent"]
-            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
-        </div>
-    }
-}
-@{
-    if (TempData["noMatch"] != null)
-    {
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Error! </strong>@TempData["noMatch"]
-            <button type="button" class="btn-close" data - bs - dismiss="alert" aria - label="Close"></button>
-        </div>
-    }
+    ViewData["Title"] = "Login to Order";
 }
 
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7 col-sm-9">
 
-<div class="container">
-    <div class="row">
-        <div>
-            <form asp-action="Login" asp-asp-controller="Home" method="post">
-                <label asp-for=Email></label>
-                <input asp-for="Email" placeholder="Enter your first name">
-                <span asp-validation-for="Email" class="text-danger"></span>
-                </br>
-                <label asp-for=Password></label>
-                <input asp-for="Password" placeholder="Enter your last name">
-                <span asp-validation-for="Password" class="text-danger"></span>
-                </br>
-                <button type="Submit">Login</button>
-                <input asp-for="FirstName" type="hidden" value="na">
-            </form>
+            <div class="card shadow-lg p-4">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Login to Place an Order!</h2>
+
+                    @* Consolidate TempData alerts for better readability and maintainability *@
+                    @{
+                        // Define message types and their corresponding Bootstrap alert classes
+                        var alertMessages = new Dictionary<string, string>
+                                        {
+                                        { "register", "Successfully Registered! Please log in." },
+                                        { "notPresent", "Error! No user found with that email." }, // Refined message
+                                        { "noMatch", "Error! Invalid email or password." } // Refined message
+                                        };
+
+                        foreach (var entry in alertMessages)
+                        {
+                            if (TempData[entry.Key] != null)
+                            {
+                                string alertClass = "alert-success"; // Default for success messages
+                                if (entry.Key == "notPresent" || entry.Key == "noMatch")
+                                {
+                                    alertClass = "alert-danger"; // For error messages
+                                }
+
+                                <div class="alert @alertClass alert-dismissible fade show" role="alert">
+                                    <strong>@Html.Raw(entry.Key == "register" ? "Success!" : "Error!")</strong> @TempData[entry.Key]
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                        }
+                    }
+
+                    <form asp-action="Login" asp-controller="Home" method="post"> @* Changed asp-controller to Account (common for auth)*@
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div> @* Display general model errors *@
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" asp-for="Email" placeholder="Enter your email"
+                                autofocus> @* Added type="email" and autofocus *@
+                            <span asp-validation-for="Email" class="text-danger mt-1 d-block"></span>
+                        </div>
+
+                        <div class="mb-4"> @* Slightly more margin for the last input before the button *@
+                            <label asp-for="Password" class="form-label">Password</label>
+                            <input type="password" class="form-control" asp-for="Password"
+                                placeholder="Enter your password"> @* Changed type to password *@
+                            <span asp-validation-for="Password" class="text-danger mt-1 d-block"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 mb-3"> @* Full-width button with bottom margin *@
+                            <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3"> @* Centered link below the form *@
+                        <span>Not Registered? <a asp-action="Register" asp-controller="Home">Register here</a></span>
+                        @* Changed asp-controller to Account *@
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<span>Not Registered?<a asp-action="Register" asp-asp-controller="Home">Register</a></span>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

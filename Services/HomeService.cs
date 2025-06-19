@@ -20,13 +20,13 @@ namespace Services
             await _userCollection.InsertOneAsync(newUser);
 
         }
-        public async Task<Users> LoginUserAsync(Users user)
+        public async Task<Users> LoginUserAsync(LoginViewModel user)
         {
             return await _userCollection.Find(p => p.Email == user.Email && p.Password == user.Password).FirstOrDefaultAsync();
         }
-        public async Task<bool> CheckUserAsync(Users user)
+        public async Task<bool> CheckUserAsync(LoginViewModel user)
         {
-            var existingUser = await _userCollection.Find<Users>(p => p.Email == user.Email).FirstOrDefaultAsync();
+            var existingUser = await _userCollection.Find(p => p.Email == user.Email).FirstOrDefaultAsync();
             return existingUser != null;
             // var count = await _userCollection.CountDocumentsAsync(p => p.Email == user.Email);
             // return count > 0;

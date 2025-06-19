@@ -1,11 +1,29 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor accessor
+
 @{
     ViewData["Title"] = "Home Page";
+    // Directly retrieve from session and store in a local variable
+    string userName = accessor.HttpContext?.Session.GetString("user");
 }
-@* @accessor.HttpContext.Session.GetString("user") *@
 
-<Hi> Welcome!! @ViewBag.user</Hi>
-<a asp-action="Get" asp-controller="Cakes"> See orders</a>
-<br />
-<a asp-action="Logout" asp-controller="Home">logout</a>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4 mb-4">Welcome!! @userName</h1> @* Use the local variable here *@
+
+            <p class="lead mb-4">
+                Explore your cake orders or place a new one!
+            </p>
+
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a asp-action="Get" asp-controller="Cakes" class="btn btn-primary btn-lg px-4 gap-3">
+                    <i class="bi bi-card-list"></i> See Orders
+                </a>
+                <a asp-action="Logout" asp-controller="Home" class="btn btn-outline-secondary btn-lg px-4">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

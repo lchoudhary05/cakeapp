@@ -27,7 +27,7 @@ public class HomeController : Controller
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(Users user)
+    public async Task<IActionResult> Login(LoginViewModel user)
     {
         if (ModelState.IsValid)
         {
@@ -82,7 +82,12 @@ public class HomeController : Controller
     {
         if (ModelState.IsValid)
         {
-            bool check = await _service.CheckUserAsync(newUSer);
+            LoginViewModel user = new LoginViewModel()
+            {
+                Email = newUSer.Email,
+                Password = newUSer.Password
+            };
+            bool check = await _service.CheckUserAsync(user);
             if (check)
             {
                 TempData["exist"] = "Email Already exits";

@@ -1,27 +1,68 @@
-@model Cakes
-<h1>Choose your cake here</h1>
+@model Cakes // Your model for the form data (should be pre-populated with existing cake data)
+
 @{
-    <form asp-action="Update" asp-controller="Cakes" class="form-group" asp-route-id="@Model.Id" method="post">
-        <label asp-for="UserName">Your Name</label>
-        <input class="row" asp-for="UserName" placeholder="Enter your Name">
-        <span asp-validation-for="UserName" class="text-danger"></span>
-        <br />
-        <label asp-for="CakeFlavour">Choose flavour</label>
-        <select asp-for="CakeFlavour" asp-items="Html.GetEnumSelectList<Flavour>()">
-            <option value=""> Select flavour of your choice</option>
-        </select>
-        <span asp-validation-for="CakeFlavour" class="text-danger"></span>
-        <br />
-        <label asp-for="CakeSize">Choose Size</label>
-        <select class="row" asp-for="CakeSize" asp-items="Html.GetEnumSelectList<Sizes>()">
-            <option value=""> select options</option>
-        </select>
-        <span asp-validation-for="CakeSize" class="text-danger"></span>
-        <br />
-        <label asp-for="OrderDue">when do your want it</label>
-        <input class="row" asp-for="OrderDue" placeholder="Enter your choice">
-        <span asp-validation-for="OrderDue" class="text-danger"></span>
-        <br />
-        <button type="Submit">Submit</button>
-    </form>
+    ViewData["Title"] = "Edit Cake Order"; // Set a title for the browser tab
+}
+
+<div class="container my-5"> @* Add margin-top and bottom for spacing *@
+    <div class="row justify-content-center"> @* Center the form card *@
+        <div class="col-lg-6 col-md-8 col-sm-10"> @* Responsive column sizing for the card *@
+
+            <div class="card shadow-lg p-4"> @* Add a card with shadow and padding *@
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Edit Cake Order</h2> @* Card title *@
+                    <p class="card-text text-center text-muted mb-4">Update the details for your custom cake order.</p>
+
+                    <form asp-action="Update" asp-controller="Cakes" asp-route-id="@Model.Id" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div> @* Display all model errors *@
+
+                        @* Hidden field for Id: Essential for passing the ID back to the Update action *@
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="mb-3"> @* Margin-bottom for form groups *@
+                            <label asp-for="UserName" class="form-label">Your Name</label> @* Bootstrap form-label *@
+                            <input type="text" class="form-control" asp-for="UserName" placeholder="Enter your Name"> @* Bootstrap form-control *@
+                            <span asp-validation-for="UserName" class="text-danger mt-1 d-block"></span> @* d-block for better spacing *@
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CakeFlavour" class="form-label">Choose Flavour</label>
+                            <select class="form-select" asp-for="CakeFlavour"
+                                asp-items="Html.GetEnumSelectList<Flavour>()"> @* Bootstrap form-select *@
+                                <option value="">Select flavour of your choice</option>
+                            </select>
+                            <span asp-validation-for="CakeFlavour" class="text-danger mt-1 d-block"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CakeSize" class="form-label">Choose Size</label>
+                            <select class="form-select" asp-for="CakeSize" asp-items="Html.GetEnumSelectList<Sizes>()">
+                                <option value="">Select size options</option>
+                            </select>
+                            <span asp-validation-for="CakeSize" class="text-danger mt-1 d-block"></span>
+                        </div>
+
+                        <div class="mb-4"> @* Slightly more margin for the last input before the button *@
+                            <label asp-for="OrderDue" class="form-label">When do you want it?</label>
+                            @* For date inputs, use type="date" and format the value if OrderDue is nullable DateTime *@
+                            <input type="date" class="form-control" asp-for="OrderDue">
+                            <span asp-validation-for="OrderDue" class="text-danger mt-1 d-block"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end"> @* Buttons at the end of the form, potentially side-by-side *@
+                            <button type="submit" class="btn btn-primary btn-lg">Update Order</button> @* Large primary button *@
+                            <a asp-action="Index" asp-controller="Cakes" class="btn btn-secondary btn-lg">Cancel</a> @* Cancel button *@
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        // This partial renders the client-side validation scripts (jQuery Validation, etc.)
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
